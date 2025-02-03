@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root           # Пароль для пользователя root
+      MYSQL_DATABASE: testdb              # Имя базы данных
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-config/my.cnf:/etc/mysql/conf.d/my.cnf  
+    ports:
+      - "3307:3307"
+    networks:
+      - backend
+
+  php:
+    build:
+      context: ./php
+    container_name: php_container
+    environment:
+      MYSQL_HOST: mysql_container
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: root                     # Используем root для подключения
+      MYSQL_PASSWORD: root                 # Пароль для пользователя root
+    volumes:
+      - ./php:/var/www/html
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./php:/var/www/html
+    depends_on:
+      - php
+    networks:
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend_container
+    command: ["npm", "run", "dev"]
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+
+networks:
+  backend:

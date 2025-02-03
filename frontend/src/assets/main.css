@@ -1,0 +1,48 @@
+:root {
+  --color-background: 255, 248, 230;
+  --gradient-background: #fff8e6;
+  --color-foreground: 58, 17, 26;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Spicy+Rice&display=swap');
+
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Space Grotesk", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  text-decoration: none;
+
+}
+
+html,
+body {
+  background-color: var(--gradient-background);
+}
+
+.container {
+  margin: 0 auto;
+  padding-left: 50px;
+  overflow: visible;
+  padding-right: 50px;
+}
+
+
+.main-section {
+  padding-top: 8vw;
+  padding-bottom: 8vw;
+  border: 1px solid black;
+  border-bottom: none;
+  position: relative;
+  width: 100%;
+}
+
+a {
+  color: var(--color-foreground);
+}
