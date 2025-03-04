@@ -1,0 +1,9 @@
+# Игнорировать директорию node_modules
+node_modules/
+
+# Игнорировать временные файлы редактора и ОС
+.DS_Store
+Thumbs.db
+
+
+docker-compose.override.yml

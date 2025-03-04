@@ -1,13 +1,16 @@
+version: "3.9"
+
 services:
   mysql:
     image: mysql:8.0
     container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: root           # Пароль для пользователя root
-      MYSQL_DATABASE: testdb              # Имя базы данных
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./mysql-config/my.cnf:/etc/mysql/conf.d/my.cnf  
+      - ./mysql-config/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql-init:/docker-entrypoint-initdb.d  # Скрипты инициализации БД
     ports:
       - "3307:3307"
     networks:
@@ -20,8 +23,8 @@ services:
     environment:
       MYSQL_HOST: mysql_container
       MYSQL_DATABASE: testdb
-      MYSQL_USER: root                     # Используем root для подключения
-      MYSQL_PASSWORD: root                 # Пароль для пользователя root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     volumes:
       - ./php:/var/www/html
     networks:
@@ -49,14 +52,12 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
-      - /app/node_modules  # Эта строка предотвращает перезапись node_modules
+      - /app/node_modules  # Защита установленных node_modules внутри контейнера
     networks:
       - backend
 
 volumes:
   mysql_data:
-    external:
-      name: lght_mysql_data  # Используем существующий volume из старого проекта
 
 networks:
   backend:
