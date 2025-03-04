@@ -2,15 +2,12 @@ FROM node:18
 
 WORKDIR /app
 
-# Копируем только package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем все зависимости, включая devDependencies
+RUN rm -rf node_modules package-lock.json
 RUN npm install
+RUN npm install vite  # Убедитесь, что vite установлен
 
-# Копируем все остальные файлы
 COPY . .
-
-EXPOSE 3000
 
 CMD ["npm", "run", "dev"]

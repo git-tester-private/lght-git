@@ -49,11 +49,14 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
+      - /app/node_modules  # Эта строка предотвращает перезапись node_modules
     networks:
       - backend
 
 volumes:
   mysql_data:
+    external:
+      name: lght_mysql_data  # Используем существующий volume из старого проекта
 
 networks:
   backend:
